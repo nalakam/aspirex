@@ -3,5 +3,6 @@
     <menuitem id="aspirex_student_managment_menu_root" name="Student Management"
               web_icon="aspirex_student_managment,static/description/icon.png">
         <menuitem id="menu_student_information" name="Student Information" sequence="1" />
+        <menuitem id="menu_configuration" name="Configuration" sequence="10" />
     </menuitem>
 </odoo>
