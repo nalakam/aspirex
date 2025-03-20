@@ -6,13 +6,14 @@
     'description': """Student Management""",
     'website': 'aspirex.com',
     'depends': [
-        'base'
+        'base', 'mail',
     ],
     'data': [
         'security/ir.model.access.csv',
         'views/menu.xml',
         'views/student_student_views.xml',
         'views/student_student_male_views.xml',
+        'views/year_year_view.xml',
     ],
     'licence': 'LGPL-3',
     'installable': True,

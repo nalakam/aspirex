@@ -10,5 +10,6 @@ class StudentStudent(models.Model):
     phone = fields.Char(string='Student number')
     mobile = fields.Char(string='Mobile Number', required=True)
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', required=True)
+    year_id = fields.Many2one(comodel_name='year.year', string='Year', required=True, tracking=True)
     age = fields.Integer(string='Age')
     height = fields.Float(string='Height')

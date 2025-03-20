@@ -4,7 +4,7 @@
         <field name="name">student.student.list</field>
         <field name="model">student.student</field>
         <field name="arch" type="xml">
-            <list string="Student Information">
+            <list string="Student Information" limit="25">
                 <field name="name"/>
                 <field name="email"/>
                 <field name="phone"/>
@@ -26,6 +26,8 @@
                 <field name="email"/>
                 <field name="phone"/>
                 <field name="mobile"/>
+                <filter name="filter_archive" string="Archive" domain="[('active', '=', False)]"/>
+                <separator/>
                 <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
                 <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
                 <separator/>
@@ -33,6 +35,9 @@
                 <group>
                     <filter name="group_by_gender" string="Gender" context="{'group_by': 'gender'}"/>
                 </group>
+<!--                <searchpanel>-->
+<!--                    <field name="gender" select="multi" enable_counters="1" icon="fa-male"/>-->
+<!--                </searchpanel>-->
             </search>
         </field>
     </record>
@@ -42,9 +47,13 @@
         <field name="model">student.student</field>
         <field name="arch" type="xml">
             <form string="Student Information">
+                <header>
+                </header>
                 <sheet string="Student Information Form">
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <group>
                         <group>
+                            <field name="active" invisible="1"/>
                             <field name="name"/>
                             <field name="email"/>
                             <field name="phone"/>
@@ -52,11 +61,13 @@
                         </group>
                         <group>
                             <field name="gender"/>
+                            <field name="year_id" options="{'no_create': True, 'no_quick_create': True}"/>
                             <field name="age"/>
                             <field name="height"/>
                         </group>
                     </group>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
