@@ -14,6 +14,7 @@
         'views/student_student_views.xml',
         'views/student_student_male_views.xml',
         'views/year_year_view.xml',
+        'data/ir_sequence_data.xml',
     ],
     'licence': 'LGPL-3',
     'installable': True,

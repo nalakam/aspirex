@@ -4,7 +4,10 @@
         <field name="name">student.student.list</field>
         <field name="model">student.student</field>
         <field name="arch" type="xml">
-            <list string="Student Information" limit="25">
+            <list string="Student Information" limit="25"
+                  decoration-success="state == 'confirm'"
+                  decoration-info="state == 'draft'"
+                  decoration-warning="state == 'cancel'">
                 <field name="name"/>
                 <field name="email"/>
                 <field name="phone"/>
@@ -12,6 +15,12 @@
                 <field name="gender"/>
                 <field name="age"/>
                 <field name="height"/>
+                <field name="is_leave" widget="boolean_toggle"/>
+                <field name="state"
+                       decoration-success="state == 'confirm'"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'cancel'"
+                       widget="badge"/>
             </list>
         </field>
     </record>
@@ -35,9 +44,9 @@
                 <group>
                     <filter name="group_by_gender" string="Gender" context="{'group_by': 'gender'}"/>
                 </group>
-<!--                <searchpanel>-->
-<!--                    <field name="gender" select="multi" enable_counters="1" icon="fa-male"/>-->
-<!--                </searchpanel>-->
+                <!--                <searchpanel>-->
+                <!--                    <field name="gender" select="multi" enable_counters="1" icon="fa-male"/>-->
+                <!--                </searchpanel>-->
             </search>
         </field>
     </record>
@@ -48,24 +57,55 @@
         <field name="arch" type="xml">
             <form string="Student Information">
                 <header>
+                    <button id="action_confirm" name="action_confirm" string="Confirm" class="btn-primary"
+                            type="object" invisible="state != 'draft'"/>
+                    <button id="action_cancel" name="action_cancel" string="cancel" class="btn-secondary"
+                            type="object" invisible="state == 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
                 </header>
                 <sheet string="Student Information Form">
                     <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <span class="o_form_label">Name</span>
+                        <h1>
+                            <field name="studentid"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
-                            <field name="active" invisible="1"/>
                             <field name="name"/>
-                            <field name="email"/>
-                            <field name="phone"/>
+                            <field name="active" invisible="1"/>
+                            <field name="gender"/>
                             <field name="mobile"/>
+                            <field name="currency_id"/>
+                            <field name="course_fee"/>
                         </group>
                         <group>
-                            <field name="gender"/>
-                            <field name="year_id" options="{'no_create': True, 'no_quick_create': True}"/>
-                            <field name="age"/>
-                            <field name="height"/>
+                            <field name="is_leave" widget="boolean_toggle"/>
+                            <field name="location" widget="radio" options="{'horizontal': true}"/>
+                            <field name="city_name"/>
+                            <field name="lecturer" widget="many2one_avatar"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page name="Student Information">
+                            <group>
+                                <group>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                </group>
+                                <group>
+                                    <field name="year_id" options="{'no_create': True, 'no_quick_create': True}"/>
+                                    <field name="year_code"/>
+                                    <field name="age"/>
+                                    <field name="height"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Remarks">
+                            <field name="remarks"/>
+                        </page>
+                    </notebook>
                 </sheet>
                 <chatter/>
             </form>
@@ -78,8 +118,8 @@
         <field name="view_mode">list,form</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_id" ref="student_student_list_view"/>
-<!--        <field name="domain">[('gender', '=', 'male')]</field>-->
-<!--        <field name="context">{'search_default_filter_male': 1, 'display_complete': True}</field>-->
+        <!--        <field name="domain">[('gender', '=', 'male')]</field>-->
+        <!--        <field name="context">{'search_default_filter_male': 1, 'display_complete': True}</field>-->
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Student Information
