@@ -35,6 +35,8 @@ class StudentStudent(models.Model):
     cv = fields.Binary(string='CV')
     cv_file_name = fields.Char(string='CV File Name')
 
+    student_tags_ids = fields.Many2many('student.tags', string='Tags')
+
     @api.onchange('location')
     def _onchange_city_name(self):
         for rec in self:

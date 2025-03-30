@@ -86,6 +86,7 @@
                             <field name="location" widget="radio" options="{'horizontal': true}"/>
                             <field name="city_name"/>
                             <field name="lecturer" widget="many2one_avatar"/>
+                            <field name="student_tags_ids" widget="many2many_tags" options="{'color_field': 'colour'}"/>
                         </group>
                     </group>
                     <notebook>
