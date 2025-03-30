@@ -8,7 +8,7 @@ class StudentStudent(models.Model):
     _description = 'Student Information'
 
     active = fields.Boolean(string='Active', default=True)
-    studentid = fields.Char(string='Student ID', required=True, tracking=True, default='New', readonly=True)
+    studentid = fields.Char(string='Student ID', required=True, default='New', readonly=True)
     name = fields.Char(string='Student Name', required=True, tracking=True)
     email = fields.Char(string='Student Email', tracking=True)
     phone = fields.Char(string='Student number', tracking=True)
@@ -29,6 +29,11 @@ class StudentStudent(models.Model):
 
     year_code = fields.Integer(related='year_id.short_code', string='Year Code', store=True)
     city_name = fields.Char(string='City Name')
+
+    image = fields.Image(string='Image', max_width=1024, max_height=1024)
+
+    cv = fields.Binary(string='CV')
+    cv_file_name = fields.Char(string='CV File Name')
 
     @api.onchange('location')
     def _onchange_city_name(self):
@@ -55,4 +60,8 @@ class StudentStudent(models.Model):
         for vals in value_list:
             vals['studentid'] = self.env['ir.sequence'].next_by_code('student.sequence') or 'New'
         res = super(StudentStudent, self).create(value_list)
+        return res
+
+    def write(self, valus):
+        res = super(StudentStudent, self).write(valus)
         return res
