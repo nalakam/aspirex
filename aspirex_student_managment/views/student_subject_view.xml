@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student_subject_list_view" model="ir.ui.view">
+        <field name="name">student.subject.list.view</field>
+        <field name="model">student.subject</field>
+        <field name="arch" type="xml">
+            <list string="Year Information" limit="25">
+                <field name="name"/>
+                <field name="code" optional="hide"/>
+                <field name="marks"/>
+                <field name="lecturer"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="student_subject_form_view" model="ir.ui.view">
+        <field name="name">student.subject.form.view</field>
+        <field name="model">student.subject</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code" optional="hide"/>
+                            <field name="marks"/>
+                            <field name="lecturer"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="student_subject_view_action" model="ir.actions.act_window">
+        <field name="name">Student Subject</field>
+        <field name="res_model">student.subject</field>
+        <field name="view_mode">list,form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_id" ref="student_subject_list_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Student Subjects
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_student_subject" name='Subjects' sequence="1" parent="menu_configuration"
+              action="student_subject_view_action">
+    </menuitem>
+</odoo>

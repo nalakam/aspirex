@@ -31,11 +31,14 @@ class StudentStudent(models.Model):
     city_name = fields.Char(string='City Name')
 
     image = fields.Image(string='Image', max_width=1024, max_height=1024)
+    image_128 = fields.Image(string='Image 128',related='image', max_width=128, max_height=128)
 
     cv = fields.Binary(string='CV')
     cv_file_name = fields.Char(string='CV File Name')
 
     student_tags_ids = fields.Many2many('student.tags', string='Tags')
+
+    student_student_ids = fields.One2many('student.subject', 'student_id', string='Subjects')
 
     @api.onchange('location')
     def _onchange_city_name(self):
