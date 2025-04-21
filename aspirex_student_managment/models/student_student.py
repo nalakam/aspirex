@@ -1,5 +1,6 @@
 from odoo import api, fields, models, _
 from datetime import datetime
+from email.policy import default
 
 
 class StudentStudent(models.Model):
@@ -14,11 +15,11 @@ class StudentStudent(models.Model):
     phone = fields.Char(string='Student number', tracking=True)
     mobile = fields.Char(string='Mobile Number', required=True, tracking=True)
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', required=True, tracking=True)
-    year_id = fields.Many2one(comodel_name='year.year', string='Year', required=True, tracking=True)
-    age = fields.Integer(string='Age', compute='_compute_age' ,tracking=True, store=True)
+    year_id = fields.Many2one(comodel_name='year.year', string='Year', required=True, tracking=True,)
+    age = fields.Integer(string='Age', compute='_compute_age', tracking=True, store=True)
     height = fields.Float(string='Height', tracking=True)
     state = fields.Selection([('draft', 'Draft'), ('confirm', 'Confirm'), ('cancel', 'Cancelled')], string='Status',
-                          tracking=True, default='draft')
+                             tracking=True, default='draft')
     currency_id = fields.Many2one('res.currency', string='Currency')
     course_fee = fields.Monetary(string='Course Fee')
     remarks = fields.Html(string='Remarks')
@@ -31,7 +32,7 @@ class StudentStudent(models.Model):
     city_name = fields.Char(string='City Name')
 
     image = fields.Image(string='Image', max_width=1024, max_height=1024)
-    image_128 = fields.Image(string='Image 128',related='image', max_width=128, max_height=128)
+    image_128 = fields.Image(string='Image 128', related='image', max_width=128, max_height=128)
 
     cv = fields.Binary(string='CV')
     cv_file_name = fields.Char(string='CV File Name')
@@ -39,6 +40,13 @@ class StudentStudent(models.Model):
     student_tags_ids = fields.Many2many('student.tags', string='Tags')
 
     student_student_ids = fields.One2many('student.subject', 'student_id', string='Subjects')
+
+    is_mobile_invisible = fields.Boolean(compute='_compute_is_mobile_invisible')
+
+    @api.depends('phone')
+    def _compute_is_mobile_invisible(self):
+        self.is_mobile_invisible =  False
+        self.is_mobile_invisible = False if self.phone else True
 
     @api.onchange('location')
     def _onchange_city_name(self):

@@ -6,7 +6,7 @@
     'description': """Student Management""",
     'website': 'aspirex.com',
     'depends': [
-        'base', 'mail',
+        'base', 'mail', 'purchase'
     ],
     'data': [
         'security/ir.model.access.csv',
