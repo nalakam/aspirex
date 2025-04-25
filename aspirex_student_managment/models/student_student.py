@@ -78,3 +78,6 @@ class StudentStudent(models.Model):
     def write(self, valus):
         res = super(StudentStudent, self).write(valus)
         return res
+
+    def _get_student_name(self):
+        return f"Student Report for {self.name}"

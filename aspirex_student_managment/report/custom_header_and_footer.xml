@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_header_and_footer">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div class="header" style="font-family:sans-serif">
+            <div class="text-start" style="report_header_style;border-bottom:1px solid black;">
+                <div class="row">
+                    <div class="col-3">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                             object-fit="none" object-position="center" width="90%" max-height="250px"
+                             margin-bottom="1rem" alt="Logo" class="pt-3"/>
+                    </div>
+                    <div class="col-9">
+                        <strong t-field="company.name" style="font-size: 36px;"/>
+                        <br/>
+                        <span t-field="company.partner_id.street" style="font-weight: normal;"/>
+                        <t t-if="company.partner_id.street2">
+                            <span t-field="company.partner_id.street2"/>
+                        </t>
+                        <t t-if="company.partner_id.city">
+                            <span t-field="company.partner_id.city"/>
+                        </t>
+                        <t t-if="company.partner_id.country_id">
+                            <span t-field="company.partner_id.country_id"/>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+        <div class="footer o_standard_footer">
+            <div class="row">
+                <div class="col-12">
+                    <p t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S') + ' ' + context_timestamp(datetime.datetime.now()).tzname()"
+                       class="text-end" style="font-size: 10px"/>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

@@ -17,6 +17,8 @@
         'data/ir_sequence_data.xml',
         'views/student_tags_view.xml',
         'views/student_subject_view.xml',
+        'report/custom_header_and_footer.xml',
+        'report/student_report_template.xml',
     ],
     'licence': 'LGPL-3',
     'installable': True,

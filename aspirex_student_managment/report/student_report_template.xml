@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_student">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="aspirex_student_managment.custom_header_and_footer">
+                    <t t-if="not o" t-set="o" t-value="docs"/>
+                    <div class="page" style="font-family:sans-serif;font-size:14px">
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_student_report" model="ir.actions.report">
+        <field name="name">Student Report</field>
+        <field name="model">student.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">aspirex_student_managment.report_student</field>
+        <field name="report_file">aspirex_student_managment.report_student</field>
+<!--        <field name="paperformat_id" ref="hr.paperformat_hr_employee_badge"/>-->
+        <field name="print_report_name">(object._get_student_name())</field>
+        <field name="binding_model_id" ref="model_student_student"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
