@@ -93,6 +93,8 @@
                             type="object" invisible="state != 'draft'"/>
                     <button id="action_cancel" name="action_cancel" string="cancel" class="btn-secondary"
                             type="object" invisible="state == 'cancel'"/>
+                    <button id="action_print" name="action_print" string="Print" class="btn-primary"
+                            type="object" invisible="state != 'confirm'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
                 </header>
                 <sheet string="Student Information Form">

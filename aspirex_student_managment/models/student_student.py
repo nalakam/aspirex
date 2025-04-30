@@ -13,7 +13,7 @@ class StudentStudent(models.Model):
     name = fields.Char(string='Student Name', required=True, tracking=True)
     email = fields.Char(string='Student Email', tracking=True)
     phone = fields.Char(string='Student number', tracking=True)
-    mobile = fields.Char(string='Mobile Number', required=True, tracking=True)
+    mobile = fields.Char(string='Mobile Number', tracking=True)
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', required=True, tracking=True)
     year_id = fields.Many2one(comodel_name='year.year', string='Year', required=True, tracking=True,)
     age = fields.Integer(string='Age', compute='_compute_age', tracking=True, store=True)
@@ -37,11 +37,19 @@ class StudentStudent(models.Model):
     cv = fields.Binary(string='CV')
     cv_file_name = fields.Char(string='CV File Name')
 
+    marks_total = fields.Float(string='Total', compute='_compute_total', store=True)
+
     student_tags_ids = fields.Many2many('student.tags', string='Tags')
 
     student_student_ids = fields.One2many('student.subject', 'student_id', string='Subjects')
 
     is_mobile_invisible = fields.Boolean(compute='_compute_is_mobile_invisible')
+
+
+    @api.depends('student_student_ids')
+    def _compute_total(self):
+        for rec in self:
+            rec.marks_total = sum(student.marks for student in rec.student_student_ids)
 
     @api.depends('phone')
     def _compute_is_mobile_invisible(self):
@@ -81,3 +89,6 @@ class StudentStudent(models.Model):
 
     def _get_student_name(self):
         return f"Student Report for {self.name}"
+
+    def action_print(self):
+        return self.env.ref('aspirex_student_managment.action_student_report').report_action(self)

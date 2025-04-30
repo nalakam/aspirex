@@ -6,12 +6,134 @@
                 <t t-call="aspirex_student_managment.custom_header_and_footer">
                     <t t-if="not o" t-set="o" t-value="docs"/>
                     <div class="page" style="font-family:sans-serif;font-size:14px">
-
+                        <div class="row">
+                            <div class="col-12 text-center mt-0">
+                                <strong style="font-size:30px">Student Information</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <strong>First Name:</strong>
+                                <br/>
+                                <strong>Gender:</strong>
+                                <br/>
+                                <t t-if="o.mobile">
+                                    <strong>Mobile Number:</strong>
+                                    <br/>
+                                </t>
+                                <strong>Currency:</strong>
+                                <br/>
+                                <strong>Course Fee:</strong>
+                            </div>
+                            <div class="col-3">
+                                <span t-field="o.name"/>
+                                <br/>
+                                <span t-field="o.gender"/>
+                                <br/>
+                                <t t-if="o.mobile">
+                                    <span t-field="o.mobile"/>
+                                    <br/>
+                                </t>
+                                <span t-field="o.currency_id.display_name"/>
+                                <br/>
+                                <span t-field="o.course_fee"/>
+                            </div>
+                            <div class="col-2"/>
+                            <div class="col-1">
+                                <strong>Location:</strong>
+                                <br/>
+                                <strong>City Name:</strong>
+                                <br/>
+                                <strong>Lecturer:</strong>
+                            </div>
+                            <div class="col-4">
+                                <span t-field="o.location"/>
+                                <br/>
+                                <span t-field="o.city_name"/>
+                                <br/>
+                                <span t-field="o.lecturer"/>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:3px;">
+                            <div class="col-12">
+                                <table style="width:100%;font-size:14px;">
+                                    <thead>
+                                        <tr style="border:1px solid black;background-color:#d3d3d3">
+                                            <td style="border:1px solid black;padding: 2px;" class="text-center">
+                                                <strong>Subject Name</strong>
+                                            </td>
+                                            <td style="border:1px solid black;padding: 2px;" class="text-center">
+                                                <strong>Lecturer Name</strong>
+                                            </td>
+                                            <td style="border:1px solid black;padding: 2px;" class="text-center">
+                                                <strong>Subject Code</strong>
+                                            </td>
+                                            <td style="border:1px solid black;padding: 2px;" class="text-end">
+                                                <strong>Marks</strong>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="lines" t-value="o.student_student_ids"/>
+                                        <tr t-foreach="lines" t-as="l" style="border:1px solid black;">
+                                            <td style="border:1px solid black;padding: 2px;">
+                                                <span t-field="l.name"/>
+                                            </td>
+                                            <td style="border:1px solid black;padding: 2px;">
+                                                <span t-field="l.lecturer.name"/>
+                                            </td>
+                                            <td style="border:1px solid black;padding: 2px;">
+                                                <span t-field="l.code"/>
+                                            </td>
+                                            <td style="border:1px solid black;padding: 2px;">
+                                                <span t-field="l.marks"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:4px;direction: rtl;">
+                            <div class="col-6">
+                                <table>
+                                    <tbody>
+                                        <tr style="border:1px solid black;" class="text-end">
+                                            <td style="border:1px solid black;padding:2px;width:120px;"
+                                                class="text-end">
+                                                <span t-field="o.marks_total"/>
+                                            </td>
+                                            <td style="padding-right:2px;width:330px;" class="text-end">
+                                                <strong>Total</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <br/>
+                                <br/>
+                                <span t-field="o.remarks"/>
+                            </div>
+                        </div>
                     </div>
                 </t>
             </t>
         </t>
     </template>
+
+    <record id="paperformat_student_info" model="report.paperformat">
+        <field name="name">Student Info Paper format</field>
+        <field name="dpi">96</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_spacing">34</field>
+    </record>
 
     <record id="action_student_report" model="ir.actions.report">
         <field name="name">Student Report</field>
@@ -19,7 +141,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">aspirex_student_managment.report_student</field>
         <field name="report_file">aspirex_student_managment.report_student</field>
-<!--        <field name="paperformat_id" ref="hr.paperformat_hr_employee_badge"/>-->
+        <field name="paperformat_id" ref="paperformat_student_info"/>
         <field name="print_report_name">(object._get_student_name())</field>
         <field name="binding_model_id" ref="model_student_student"/>
         <field name="binding_type">report</field>
